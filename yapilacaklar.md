@@ -132,3 +132,11 @@ Sabit ceza çalıştıktan SONRA tak, geri kalan kod değişmez.
 - Her formasyonda 1 kaleci var → kaleci mekaniği bozulmaz
 
 EN SONA bırak: veri değişince test etmek zorlaşır, önce mekanik otursun.
+
+### NOT (29 Tem) — yedek slot seçimi
+`find` ilk boş slotu döndürüyor. Formasyonda gk en başta olduğu için,
+kaleci alınmadan seçilen ilk oyuncu kaleye geçiyor. Sert ama kural gereği doğru.
+
+Kanka mevki tablosu (Aşama 3) yazıldığında bu KENDİLİĞİNDEN düzelir:
+tablo hem cezayı hesaplar hem "en yakın boş mevki"yi seçmeye yarar.
+Ayrı bir iş değil.

@@ -19,6 +19,7 @@ console.log(myTeamList)
 let currentTeamIndex = 0;
 let quatos = [3, 3, 3, 2];
 let teams = [team1, team2, team3, team4, team5, team6];
+let punishment = 10;
 
 
 
@@ -124,11 +125,21 @@ function getMyAveragePower(myTeamList) {
     let total = 0;
     for (let i = 0; i < myTeamList.slots.length; i++) {
         let player = myTeamList.slots[i].player;
-        if(player !== null) {
-        total += player.power;
+
+
+        if (player !== null) {
+            total += player.power;
+
+            if (player.position !== myTeamList.slots[i].position) {
+                total -= punishment;
+            }
+
         }
+
+
+
     }
-    return total / countMyTeamPlayers(myTeamList) 
+    return total / countMyTeamPlayers(myTeamList)
 }
 
 
@@ -172,17 +183,17 @@ function renderTeams() {
 
 
 function renderMyTeam() {
-    
+
     document.getElementById("myTeam").textContent = "";
-    
+
 
     for (let i = 0; i < myTeamList.slots.length; i++) {
         let slot = myTeamList.slots[i];
         let playerCard = document.createElement("div");
         playerCard.className = "myplayer-card";
         playerCard.textContent = slot.position + ": ";
-        if(slot.player !== null) {
-           playerCard.textContent += slot.player.name + " " + slot.player.power;  
+        if (slot.player !== null) {
+            playerCard.textContent += slot.player.name + " " + slot.player.power;
         }
         document.getElementById("myTeam").appendChild(playerCard)
     }
@@ -211,8 +222,7 @@ function removePlayerFromSquad(player) {
 function addPlayerToSquad(player) {
     let foundSlot = myTeamList.slots.find(slot => slot.player === null && slot.position === player.position);
     if (foundSlot === undefined) {
-        alert("Bu mevkiye oyuncu alamazsınız")
-        return;
+        foundSlot = myTeamList.slots.find(slot => slot.player === null);
     }
     foundSlot.player = player;
 }
