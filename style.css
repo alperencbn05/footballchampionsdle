@@ -1,0 +1,16 @@
+.team-card  {
+    border: 2px solid blue;
+    min-height: 50px;
+    min-width: 10%;
+    margin-bottom: 20px;
+
+}
+
+.player-card {
+    margin-bottom: 1px;
+}
+
+#myTeam {
+    border: 2px solid red;
+    min-height: 100px;
+}
