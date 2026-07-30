@@ -90,10 +90,6 @@ function createTeamCard(team) {
 
             }
             addPlayerToSquad(team.players[i])
-            if (getPlayerCountFromTeam(team) >= quotas[currentTeamIndex]) {
-                currentTeamIndex++;
-                renderTeams();
-            }
 
 
         });
@@ -184,6 +180,30 @@ function renderTeams() {
     document.getElementById("team-area").textContent = "";
     document.getElementById("team-area").appendChild(createTeamCard(selectedTeams[currentTeamIndex]))
 
+
+    let nextTeam = document.createElement("button");
+    nextTeam.className = "next-team"
+    nextTeam.textContent = "Sıradaki takım"
+    document.getElementById("team-area").appendChild(nextTeam)
+
+    if(currentTeamIndex == selectedTeams.length -1) {
+            nextTeam.textContent = "Bitir";
+        }
+
+
+
+    nextTeam.addEventListener("click", () => {
+        if (getPlayerCountFromTeam(selectedTeams[currentTeamIndex]) < quotas[currentTeamIndex]) {
+            alert("Önce bu takımdan " + quotas[currentTeamIndex] + " oyuncu seçmelisin");
+            return;
+        }
+
+        
+        currentTeamIndex++;
+        renderTeams();
+    });
+
+
 }
 
 
@@ -198,6 +218,8 @@ function renderMyTeam() {
     myteamNameCard.className = "myteamname-card";
     myteamNameCard.textContent = myTeamList.teamName;
     document.getElementById("myTeam").appendChild(myteamNameCard);
+
+
 
 
 
@@ -264,6 +286,8 @@ renderMyTeam();
 
 
 document.getElementById("start-game").addEventListener("click", () => {
+
+
     if ((countMyTeamPlayers(myTeamList)) !== myTeamList.slots.length) {
         alert("Takımınız 11 kişi olmalı")
         return;
@@ -280,8 +304,8 @@ document.getElementById("start-game").addEventListener("click", () => {
         let opponentPower = Math.floor(getAveragePower(opponent));
         let matchResult;
         let rate = 20;
-        let userGoals = Math.floor(Math.random() * (userPower / rate ))
-        let opponentGoals = Math.floor(Math.random() * (opponentPower / rate ))
+        let userGoals = Math.floor(Math.random() * (userPower / rate))
+        let opponentGoals = Math.floor(Math.random() * (opponentPower / rate))
         if (userGoals > opponentGoals) {
 
             matchResult = "Kazandın";
@@ -292,7 +316,7 @@ document.getElementById("start-game").addEventListener("click", () => {
         else {
             matchResult = "Berabere";
         }
-        document.getElementById("result").textContent = matchResult + " " + userGoals + "-"+ opponentGoals
+        document.getElementById("result").textContent = matchResult + " " + userGoals + "-" + opponentGoals
     }
 
         , 3000)
