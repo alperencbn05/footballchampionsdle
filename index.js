@@ -103,7 +103,6 @@ function createTeamCard(team) {
             playerCard.className = "player-card";
         }
         teamCard.appendChild(playerCard);
-        renderMyTeam();
     }
     return teamCard;
 }
@@ -242,6 +241,7 @@ function removePlayerFromSquad(player) {
     let foundSlot = myTeamList.slots.find(slot => slot.player === player);
     foundSlot.player = null;
     renderTeams();
+    renderMyTeam();
 }
 
 
@@ -252,6 +252,7 @@ function addPlayerToSquad(player) {
     }
     foundSlot.player = player;
     renderTeams();
+    renderMyTeam();
 }
 
 
@@ -263,28 +264,51 @@ renderMyTeam();
 
 
 document.getElementById("start-game").addEventListener("click", () => {
-    if ((countMyTeamPlayers()) !== myTeamList.slots.length) {
+    if ((countMyTeamPlayers(myTeamList)) !== myTeamList.slots.length) {
         alert("Takımınız 11 kişi olmalı")
         return;
 
 
     }
 
-    let luck = (Math.random() * 20) - 10;
-    let userPower = Math.floor(getMyAveragePower());
-    let opponentPower = Math.floor(getAveragePower(opponent));
-    let matchResult;
 
-    if ((userPower + luck) > opponentPower) {
+    document.getElementById("result").textContent = "Rakibin : " + opponent.teamName
 
-        matchResult = "won";
+
+    setTimeout(() => {
+        let userPower = Math.floor(getMyAveragePower());
+        let opponentPower = Math.floor(getAveragePower(opponent));
+        let matchResult;
+        let rate = 20;
+        let userGoals = Math.floor(Math.random() * (userPower / rate ))
+        let opponentGoals = Math.floor(Math.random() * (opponentPower / rate ))
+        if (userGoals > opponentGoals) {
+
+            matchResult = "Kazandın";
+        }
+        else if (userGoals < opponentGoals) {
+            matchResult = "Kaybettin";
+        }
+        else {
+            matchResult = "Berabere";
+        }
+        document.getElementById("result").textContent = matchResult + " " + userGoals + "-"+ opponentGoals
     }
-    else {
-        matchResult = "lost";
-    }
-    document.getElementById("result").textContent = matchResult + " " + "Rakibin : " + opponent.teamName + " " + userPower + "-" + opponentPower;
+
+        , 3000)
+
+
+
+
+
+
+
+
+
+
 }
 )
+
 
 
 

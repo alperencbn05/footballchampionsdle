@@ -9,54 +9,35 @@
 - Formasyon: 4-4-2 (gk, lb, cb, cb, rb, lm, cm, cm, rm, st, st)
 - Mevki dışı yerleştirme serbest, güç cezalı (şimdilik sabit -10)
 - Rakip: kullanıcının seçemediği 2 takımdan biri
+- Kural: veri değişti → İKİ panel de tazelenir (add/remove içinden)
 
 
-## DÜZELTMELER — 30 Tem kod incelemesinden
-
-### 1. Boş slot class'ı yanlış  [5 dk]
-`"myemptyplayer-card"` diye bir CSS kuralı YOK.
-style.css bölüm 7'deki seçiciye bak. `misplaced`'i nasıl
-yazdıysan (iki class, arada boşluk) aynı kalıp.
-
-### 2. picked yanlış anda atanıyor  [15 dk]
-Şu an 2. bekçinin içinde — o bekçi artık hiç tetiklenmiyor
-(ekranda hep sıradaki takım var). O satırı ve bekçiyi düşün:
-- Kural: kartın görünümü TIKLANINCA değil ÇİZİLİRKEN belirlenir
-- Yer: createTeamCard, oyuncu döngüsü, kart oluşturulduğu an
-- Koşul: "bu oyuncu kadroda mı?" — fonksiyonun hazır
-- DİKKAT: ekleme/çıkarma sonrası takım listesi yeniden çizilmezse
-  çizgi gelmez/gitmez. renderMyTeam() çağırdığın yerlere bak.
-
-### 3. getAveragePower bug'ı  [2 dk]
-`total / countMyTeamPlayers(team)` → countMyTeamPlayers parametreyi
-kullanmıyor, SENİN kadronu sayıyor. Rakip gücü yanlış hesaplanıyor
-(şimdilik 11=11 olduğu için görünmüyor, turnuvada patlar).
-Rakibin toplamı rakibin oyuncu sayısına bölünmeli — eski haline dön.
-
-### 4. Kalan küçükler  [10 dk]
-- [ ] `getMyAveragePower(myTeamList)` parametresi globali gölgeliyor —
-      parametreyi kaldır, çağıran yeri de düzelt
-- [ ] Kota mesajına sayıyı ekle: quotas[currentTeamIndex]
-- [ ] "Your team should have 11 players" → Türkçe
-- [ ] renderMyTeam: else içindeki `if (slot.player !== null)` her
-      zaman true — sadeleştir
-- [ ] `del style.css.eski`
-
-
-## ADIM 6 — Maç dramatizasyonu  [20 dk]
+## ŞİMDİ — Maç dramatizasyonu  [20 dk]
 
 - Dosya: index.js → start-game listener'ı
+- Şu an: tıkla → sonuç anında basılıyor. Heyecan yok.
 - Hedef:
   1. Tıklayınca ÖNCE sadece rakip yazsın: "Rakibin: Real Madrid..."
   2. 3 saniye sonra skor/sonuç gelsin
   3. Beklerken buton tıklanamasın
 - İpuçları:
   - setTimeout(fonksiyon, 3000) — geri çağırma kalıbı,
-    addEventListener'la aynı mantık
-  - Buton elementinin `disabled` özelliği var, true/false
+    addEventListener'la aynı mantık: fonksiyonu SEN yazarsın,
+    tarayıcı 3 sn sonra ÇAĞIRIR
+  - Buton elementinin `disabled` özelliği var, true/false yap,
+    sonuç gelince geri aç
   - Sonuç hesabı setTimeout'un İÇİNE mi DIŞINA mı? İkisi de çalışır —
     hangisi neden daha mantıklı, düşün, konuşuruz.
 - Test: tıkla → rakip görünsün → buton kilitli → 3 sn → sonuç
+
+
+## MİKRO KALINTILAR (5 dk, ara bir zamanda)
+
+- [ ] Guard 1'deki `renderMyTeam();` (satır ~68) — remove zaten çiziyor,
+      çift çizim. Sil.
+- [ ] `countMyTeamPlayers(myTeamList)` iki yerde (satır ~147, ~267) —
+      fonksiyon parametre almıyor, `countMyTeamPlayers()` yaz
+- [ ] Kota mesajı "seçtiniz.3" diye bitiyor — sayıyı cümlenin içine al
 
 
 ## SONRA (birlikte)
@@ -73,6 +54,7 @@ forvetin kaleye oturması kendiliğinden düzelir.
 ### Takımlara farklı formasyonlar  [~1 saat, EN SON]
 ### Mevki Aşama 2 — kullanıcı slot seçsin  [~3-5 saat, opsiyonel]
 ### Turnuva  [~4-6 saat]
+Tur yapısı, eşleşmeler, elenme, kupa. "Bir maç oyna"yı döngüye sarmak.
 
 
 ## TEKRAR EDEN HATALAR — kod yazarken kontrol et
@@ -81,7 +63,9 @@ forvetin kaleye oturması kendiliğinden düzelir.
 2. **`return`'ün yeri** — biriktirme → döngüden SONRA; arama → içinde olabilir
 3. **Callback parametresini kullanmamak** — ok'un solundaki isim o turdaki eleman
 4. **Yarım rename** — F2 kullan
-5. **YENİ: fonksiyona parametre verip fonksiyonun onu kullandığını sanmak** —
-   çağırmadan önce fonksiyonun İÇİNE bak: parametre gerçekten kullanılıyor mu?
-   (getAveragePower / countMyTeamPlayers olayı)
-6. **Kaydetmeyi unutmak** — Ctrl+S
+5. **Parametre verip fonksiyonun onu kullandığını sanmak** — çağırmadan
+   önce fonksiyonun İÇİNE bak
+6. **YENİ: kod bloğunu yanlış "an"a koymak** — bu satır TIKLANINCA mı
+   çalışmalı, ÇİZİLİRKEN mi? Listener içi = tıklama anı, döngü içi = çizim anı.
+   (picked macerası, 4 deneme)
+7. **Kaydetmeyi unutmak** — Ctrl+S
