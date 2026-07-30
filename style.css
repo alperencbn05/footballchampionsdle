@@ -284,3 +284,59 @@ body {
     background: #1f8a4c;
     color: #ffffff;
 }
+
+
+/* 11. START SCREEN ---------------------------------------- */
+/* Full-page overlay. JS hides it: add class "hidden" on click */
+
+#start-screen {
+    position: fixed;
+    inset: 0;                  /* top/right/bottom/left: 0 */
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(160deg, #0e3d22 0%, #1f8a4c 100%);
+}
+
+#start-screen.hidden {
+    display: none;
+}
+
+.start-box {
+    text-align: center;
+    color: #ffffff;
+    padding: 24px;
+}
+
+.start-box h1 {
+    margin: 0 0 14px;
+    font-size: 42px;
+    font-weight: 800;
+    letter-spacing: -1px;
+}
+
+.start-sub {
+    margin: 0 0 28px;
+    font-size: 15px;
+    line-height: 1.6;
+    color: #d8ecdF;
+}
+
+#enter-game {
+    padding: 14px 44px;
+    font-family: inherit;
+    font-size: 17px;
+    font-weight: 700;
+    color: #1f8a4c;
+    background: #ffffff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.12s, box-shadow 0.12s;
+}
+
+#enter-game:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+}

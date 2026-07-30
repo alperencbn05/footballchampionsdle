@@ -18,7 +18,7 @@ console.log(myTeamList)
 
 let currentTeamIndex = 0;
 let quotas = [3, 3, 3, 2];
-let teams = [team1, team2, team3, team4, team5, team6];
+let teams = allTeams;
 let punishment = 10;
 
 
@@ -333,6 +333,10 @@ document.getElementById("start-game").addEventListener("click", () => {
 }
 )
 
+
+document.getElementById("enter-game").addEventListener("click" , () => {
+    document.getElementById("start-screen").classList.add("hidden")
+})
 
 
 
