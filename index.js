@@ -62,7 +62,6 @@ function createTeamCard(team) {
         let playerCard = document.createElement("div");
         playerCard.textContent = team.players[i].name + " " + team.players[i].position + " " + team.players[i].power;
         playerCard.addEventListener("click", () => {
-        playerCard.className = "player-card picked";
 
             if (isPlayerInSquad(team.players[i]) && (team === selectedTeams[currentTeamIndex])) {
                 removePlayerFromSquad(team.players[i]);
@@ -95,11 +94,16 @@ function createTeamCard(team) {
                 currentTeamIndex++;
                 renderTeams();
             }
-            renderMyTeam();
+
 
         });
-        playerCard.className = "player-card";
+        if (isPlayerInSquad(team.players[i])) {
+            playerCard.className = "player-card picked";
+        } else {
+            playerCard.className = "player-card";
+        }
         teamCard.appendChild(playerCard);
+        renderMyTeam();
     }
     return teamCard;
 }
@@ -196,7 +200,7 @@ function renderMyTeam() {
     myteamNameCard.textContent = myTeamList.teamName;
     document.getElementById("myTeam").appendChild(myteamNameCard);
 
-    
+
 
 
     for (let i = 0; i < myTeamList.slots.length; i++) {
@@ -205,15 +209,16 @@ function renderMyTeam() {
         let playerCard = document.createElement("div");
         playerCard.className = "myplayer-card";
         playerCard.textContent = slot.position + ": ";
-        if(slot.player === null) {
-            playerCard.className ="myemptyplayer card"
+        if (slot.player === null) {
+            playerCard.className = "myplayer-card empty"
         } else {
-        if(player.position !== slot.position) {
-          playerCard.className ="myplayer-card misplaced"  
+            if (player.position !== slot.position) {
+                playerCard.className = "myplayer-card misplaced"
+            }
+            if (slot.player !== null) {
+                playerCard.textContent += slot.player.name + " " + slot.player.power;
+            }
         }
-        if (slot.player !== null) {
-            playerCard.textContent += slot.player.name + " " + slot.player.power;
-        } }
         document.getElementById("myTeam").appendChild(playerCard)
     }
 }
@@ -225,6 +230,7 @@ function renderMyTeam() {
 
 function isPlayerInSquad(player) {
     return myTeamList.slots.some(slot => slot.player === player);
+
 }
 
 function countMyTeamPlayers() {
@@ -245,6 +251,7 @@ function addPlayerToSquad(player) {
         foundSlot = myTeamList.slots.find(slot => slot.player === null);
     }
     foundSlot.player = player;
+    renderTeams();
 }
 
 
