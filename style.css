@@ -167,7 +167,7 @@ body {
    -------------------------------------------------------- */
 
 /* Empty slot in the squad — add "empty" class when slot.player === null */
-.myemptyplayer-card {
+.myemptyplayer.card {
     background: #f7f9fa;
     border-color: #e5eaef;
     border-style: dashed;

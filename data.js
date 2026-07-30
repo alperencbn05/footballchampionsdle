@@ -107,6 +107,6 @@ let team6 = {
     { name: "Sara", position: "st", power: 81 },
     { name: "Baris Alper Yilmaz", position: "lm", power: 78 },
     { name: "Sane", position: "rm", power: 84 },
-    { name: "Osimhenn", position: "st", power: 89 }
+    { name: "Osimhen", position: "st", power: 89 }
     ]
 };

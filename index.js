@@ -57,10 +57,12 @@ function createTeamCard(team) {
     teamNameCard.textContent = team.teamName;
     teamCard.appendChild(teamNameCard);
 
+
     for (let i = 0; i < team.players.length; i++) {
         let playerCard = document.createElement("div");
         playerCard.textContent = team.players[i].name + " " + team.players[i].position + " " + team.players[i].power;
         playerCard.addEventListener("click", () => {
+        playerCard.className = "player-card picked";
 
             if (isPlayerInSquad(team.players[i]) && (team === selectedTeams[currentTeamIndex])) {
                 removePlayerFromSquad(team.players[i]);
@@ -70,7 +72,6 @@ function createTeamCard(team) {
 
             if (isPlayerInSquad(team.players[i])) {
                 alert("bu takımdan oyuncu veremezsiniz.");
-                playerCard.className = "player-card picked"; // çalışmıyor 
                 return;
 
             }
@@ -78,7 +79,7 @@ function createTeamCard(team) {
 
 
             if (getPlayerCountFromTeam(team) >= quotas[currentTeamIndex]) {
-                alert("Bu takımdan maximum sayıda oyuncu seçtiniz.");
+                alert("Bu takımdan maximum sayıda oyuncu seçtiniz." + quotas[currentTeamIndex]);
                 return;
 
             }
@@ -115,11 +116,11 @@ function getAveragePower(team) {
         total += team.players[i].power;
 
     }
-    return total / countMyTeamPlayers(team)
+    return total / team.players.length
 }
 
 
-function getMyAveragePower(myTeamList) {
+function getMyAveragePower() {
     if (myTeamList.slots.length == 0) {
         return 0;
     }
@@ -172,7 +173,7 @@ function getPlayerCountFromTeam(team) {
 function renderTeams() {
 
     if (currentTeamIndex >= selectedTeams.length) {
-        document.getElementById("team-area").textContent = "Your team is ready";
+        document.getElementById("team-area").textContent = "Takımınız Hazır.";
         return;
     }
 
@@ -205,7 +206,7 @@ function renderMyTeam() {
         playerCard.className = "myplayer-card";
         playerCard.textContent = slot.position + ": ";
         if(slot.player === null) {
-            playerCard.className ="myemptyplayer-card"
+            playerCard.className ="myemptyplayer card"
         } else {
         if(player.position !== slot.position) {
           playerCard.className ="myplayer-card misplaced"  
@@ -234,6 +235,7 @@ function countMyTeamPlayers() {
 function removePlayerFromSquad(player) {
     let foundSlot = myTeamList.slots.find(slot => slot.player === player);
     foundSlot.player = null;
+    renderTeams();
 }
 
 
@@ -255,14 +257,14 @@ renderMyTeam();
 
 document.getElementById("start-game").addEventListener("click", () => {
     if ((countMyTeamPlayers()) !== myTeamList.slots.length) {
-        alert("Your team should have 11 players")
+        alert("Takımınız 11 kişi olmalı")
         return;
 
 
     }
 
     let luck = (Math.random() * 20) - 10;
-    let userPower = Math.floor(getMyAveragePower(myTeamList));
+    let userPower = Math.floor(getMyAveragePower());
     let opponentPower = Math.floor(getAveragePower(opponent));
     let matchResult;
 
@@ -273,7 +275,7 @@ document.getElementById("start-game").addEventListener("click", () => {
     else {
         matchResult = "lost";
     }
-    document.getElementById("result").textContent = matchResult + " " + "your opponent: " + opponent.teamName + " " + userPower + "-" + opponentPower;
+    document.getElementById("result").textContent = matchResult + " " + "Rakibin : " + opponent.teamName + " " + userPower + "-" + opponentPower;
 }
 )
 
