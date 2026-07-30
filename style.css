@@ -126,15 +126,41 @@ body {
 }
 
 
-/* 6. FOOTER: BUTTON & RESULT ------------------------------ */
+/* 6. MATCH PANEL (left column, shown when squad is done) --- */
+
+.hidden {
+    display: none !important;
+}
+
+#match-area {
+    flex: 1;
+    min-width: 0;
+    background: #ffffff;
+    border: 1px solid #dfe4ea;
+    border-radius: 10px;
+    padding: 34px 24px;
+    box-shadow: 0 1px 2px rgba(20, 30, 40, 0.05);
+    text-align: center;
+}
+
+.match-title {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.4px;
+    margin-bottom: 6px;
+}
+
+.match-sub {
+    margin: 0 0 22px;
+    color: #5b6570;
+    font-size: 14px;
+}
 
 #start-game {
-    display: block;
-    margin: 18px auto 0;
-    padding: 11px 24px;
+    padding: 12px 36px;
     font-family: inherit;
-    font-size: 14px;
-    font-weight: 600;
+    font-size: 15px;
+    font-weight: 700;
     color: #ffffff;
     background: #1f8a4c;
     border: none;
@@ -151,15 +177,17 @@ body {
     transform: translateY(1px);
 }
 
-#result {
-    max-width: 980px;
-    margin: 14px auto 0;
-    text-align: center;
-    font-size: 15px;
-    font-weight: 600;
-    min-height: 22px;          /* reserves space so nothing jumps */
+#start-game:disabled {
+    background: #9aa3ad;
+    cursor: wait;
 }
 
+#result {
+    margin: 22px 0 0;
+    font-size: 20px;
+    font-weight: 700;
+    min-height: 26px;
+}
 
 /* 7. STATE HOOKS ------------------------------------------
    These rules are ready but do nothing yet.

@@ -14,7 +14,7 @@
     <div id="start-screen">
         <div class="start-box">
             <h1>Football Champions</h1>
-            <p class="start-sub">Her turda 3 takımdan birini seç, takımdan bir oyuncu al.<br>
+            <p class="start-sub">Her turda 3 takımdan birini seç, oyuncularını al.<br>
                 11 oyuncuyla kadronu kur, rakibini yen, kupaya uzan.</p>
             <button id="enter-game">Oyuna Başla</button>
         </div>
@@ -22,17 +22,23 @@
 
     <header class="page-head">
         <h1>Football Champions</h1>
-        <p>Her turda 3 takımdan birini seç, bir oyuncu al. 11 oyuncuyla kadronu kur.</p>
+        <p>Her turda 3 takımdan birini seç, oyuncularını al. 11 oyuncuyla kadronu kur.</p>
     </header>
 
     <div id="layout">
-        <div id="team-area"></div>
-        <div id="myTeam"></div>
-    </div>
 
-    <div class="page-foot">
-        <button id="start-game">Start Game</button>
-        <p id="result"></p>
+        <div id="team-area"></div>
+
+        <!-- MAC ALANI: kadro bitince team-area gizlenir, bu gosterilir (JS isi) -->
+        <div id="match-area" class="hidden">
+            <div class="match-title">Kadron Hazır</div>
+            <p class="match-sub">Rakibinle karşılaşma zamanı.</p>
+            <button id="start-game">Maçı Başlat</button>
+            <p id="result"></p>
+        </div>
+
+        <div id="myTeam"></div>
+
     </div>
 
     <footer class="site-note">

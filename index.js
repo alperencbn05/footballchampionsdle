@@ -172,7 +172,8 @@ function getPlayerCountFromTeam(team) {
 function renderTeams() {
 
     if (currentTeamIndex >= selectedTeams.length) {
-        document.getElementById("team-area").textContent = "Takımınız Hazır.";
+        document.getElementById("team-area").classList.add("hidden");
+        document.getElementById("match-area").classList.remove("hidden");
         return;
     }
 
@@ -186,8 +187,9 @@ function renderTeams() {
     nextTeam.textContent = "Sıradaki takım"
     document.getElementById("team-area").appendChild(nextTeam)
 
-    if(currentTeamIndex == selectedTeams.length -1) {
+    if(currentTeamIndex == selectedTeams.length - 1) {
             nextTeam.textContent = "Bitir";
+            
         }
 
 
