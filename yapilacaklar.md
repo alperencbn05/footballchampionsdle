@@ -14,69 +14,142 @@
 - Sadece 2025/26 sezonu, yıl alanı yok
 
 
-## SIRADAKİ — Mevki Aşama 1'i bitir
+# ═══════════════════════════════════════════
+#  BUGÜN — TEK BAŞINA YAPILACAKLAR
+#  Sıra önemli. Her adımdan sonra: kaydet,
+#  tarayıcıda test et, çalışıyorsa commit.
+# ═══════════════════════════════════════════
 
-### 1. Yedek yerleştirme  [~10 dk]
-`addPlayerToSquad` içinde: kendi mevkisine ait boş slot yoksa
-HERHANGİ bir boş slota yerleştir.
-- İkinci bir `find`, koşulu sadece "slot boş mu"
-- Bulamazsa (kadro tamamen dolu) uyar
-- Şu an sessizce "bulunamadı" yazıp geçiyor — kullanıcı hiçbir şey görmüyor
+## ADIM 0 — Git'i kurtar ve push'la  [5 dk]
 
-BU OLMADAN "kaleci sıkıntısı" mekaniği hiç çalışmıyor.
+Takılı kilit dosyası var. Terminalde:
 
-### 2. Mevki dışı ceza  [~10 dk]
-`getMyAveragePower` içinde: slotun mevkisi ile oyuncunun mevkisi
-farklıysa gücünü düşür.
-- `slot.position !== slot.player.position` → ceza uygula
-- Aşama 1'de sabit ceza (örn. -20)
+    cd C:\Users\alper\Desktop\footballchampionsdle
+    del .git\index.lock
+    del style.css.eski
+    del data.js.eski
+    git add .
+    git commit -m "Modern light theme CSS, page header, responsive layout"
+    git push
+
+Kontrol: github.com/alperencbn05/footballchampionsdle sayfasında
+yeni commit gözüksün.
 
 
-## SONRA
+## ADIM 1 — Boş slot görünümü: "empty" class  [10 dk]
 
-### 3. Maç dramatizasyonu  [~20 dk]
-- Butona basınca önce rakibi göster
-- `setTimeout` ile 3-5 sn sonra sonucu göster
-- Beklerken butonu `disabled` yap (çift tıklama sorunu)
+- Dosya: index.js → `renderMyTeam` fonksiyonu
+- style.css'in en altında `.myplayer-card.empty` diye HAZIR bir kural var.
+  Kesikli çizgi + soluk yazı. Ama JS o class'ı eklemediği için ölü duruyor.
+- Yapılacak: slot BOŞSA karta İKİ class ver: "myplayer-card empty".
+  Doluysa sadece "myplayer-card".
+- İpucu: className bir metin (string). İki class = araya boşluk.
+  Zaten slot boş mu dolu mu diye bakan bir if'in var — ona ekle.
+- Test: sayfayı yenile. 11 slot kesikli çizgili başlamalı.
+  Oyuncu ekle → o slot normal görünüme dönmeli.
 
-### 4. Seçili oyuncuyu işaretle  [~15 dk]
-Kadroya alınan oyuncunun kartı takım listesinde aynı görünüyor.
-Farklı bir `className` verilmeli — kullanıcı ne seçtiğini görsün.
+  // ifle farklı bir class oluşturdum boşsa o class özelliği biraz uğraşmadım
 
-### 5. Mesajları düzelt  [~10 dk]
-- "Team is full" → "Squad is full" (takım/kadro karışıyor)
-- "you can max 3 selected this team" → kota sayısını metne ekle
+## ADIM 2 — Yanlış mevki görünümü: "misplaced" class  [10 dk]
+
+- Aynı yer: `renderMyTeam`
+- Hazır kural: `.myplayer-card.misplaced` (turuncu)
+- Yapılacak: slot doluysa VE slotun mevkisi oyuncunun mevkisinden
+  farklıysa → "myplayer-card misplaced"
+- İpucu: bu karşılaştırmayı zaten bir kez yazdın —
+  `getMyAveragePower` içinde. Aynı koşul.
+- Test: kaleci almadan bir forvet seç → kaleye oturur → turuncu olmalı.
+
+## ADIM 3 — Seçilmiş oyuncu: "picked" class  [15 dk]
+
+- Dosya: index.js → `createTeamCard` fonksiyonu, oyuncu döngüsünün içi
+- Hazır kural: `.player-card.picked` (üstü çizili, soluk)
+- Yapılacak: oyuncu ZATEN kadrodaysa → "player-card picked"
+- İpucu: "kadroda mı?" sorusunu cevaplayan fonksiyonun var zaten.
+- DİKKAT: class'ı eklemek yetmez. Oyuncu eklenince/çıkınca takım
+  listesi de tazelenmeli, yoksa çizgi tıklayınca gelmez.
+  Soru: renderMyTeam'i çağırdığın yerlerde başka ne çağırmalısın?
+- Test: oyuncu seç → takım listesinde üstü çizilsin.
+  Kadrodan çıkar → çizgi kalksın.
+
+## ADIM 4 — Mesajları düzelt  [10 dk]
+
+- "Team is full" → "Kadro dolu"
+- "you can max 3 selected this team" → kota SAYISINI metne ekle
+  (ipucu: sabit "3" yazma — quatos[currentTeamIndex] elinde)
 - "bu takımdan oyuncu veremezsin" → "bu takım kapandı"
-- Türkçe/İngilizce karışık, birini seç
+- Dil birliği: hepsi Türkçe olsun (site Türkçe çünkü)
 
-### 6. CSS + HTML'i elden geçir  [~3-5 saat]
-Kendin yazacaksın. Flexbox öğrenme fırsatı.
-- Takım kartı ve kadro paneli yan yana
-- 11 slotu formasyon görünümünde diz
-- Boş slot / dolu slot / cezalı slot ayrı görünsün
+## ADIM 5 — Küçük temizlikler  [15 dk]
 
-### 7. Mevki Aşama 2 — kullanıcı slot seçsin  [~3-5 saat]
-Otomatik yerleştirme yerine: önce slota tıkla, sonra oyuncuya.
+- [ ] `quatos` → `quotas` — F2 ile, elle arama YAPMA
+- [ ] `renderMyTeam` içindeki `textContent = " "` → `""`
+      (boşluk karakteri görünmez bir metin düğümü bırakıyor)
+- [ ] `getMyAveragePower(myTeamList)` — parametre globali gölgeliyor.
+      Parametreyi tamamen kaldır, fonksiyon globali kullansın
+      (countMyTeamPlayers zaten öyle yapıyor). Çağıran yeri de düzelt.
+- [ ] `<title>` kontrol et — "Football Champions - Kadronu Kur" olmalı
 
-### 8. Mevki Aşama 3 — uzaklığa göre ceza  [~1 saat]
-Sabit ceza yerine mevkiler arası uzaklık tablosu.
-Kaleci forvette oynarsa çok, defans orta sahada oynarsa az ceza.
+## ADIM 6 — Maç dramatizasyonu  [20 dk]
 
-### 9. Turnuva  [~4-6 saat]
-- Tur yapısı, eşleşmeler, ilerleme
-- Kaybedince elenme, kazanınca kupa
-- "Bir maç oyna" işini döngüye sarmak
+- Dosya: index.js → start-game listener'ı
+- Şu an: tıkla → sonuç anında basılıyor. Heyecan yok.
+- Hedef:
+  1. Tıklayınca ÖNCE sadece rakip yazsın: "Rakibin: Real Madrid..."
+  2. 3 saniye sonra skor/sonuç gelsin
+  3. Beklerken buton tıklanamasın (yoksa çift tıklama karmaşası)
+- İpuçları:
+  - setTimeout(fonksiyon, 3000) — fonksiyonu SEN yazarsın, tarayıcı
+    3 sn sonra ÇAĞIRIR. addEventListener'la aynı kalıp: geri çağırma.
+  - Butonu kapatmak: buton elementinin `disabled` özelliği var,
+    true/false yap. Sonuç gelince geri aç.
+  - Sonuç hesabını setTimeout'un İÇİNE mi DIŞINA mı yazmalı?
+    İkisi de çalışır — hangisi neden daha mantıklı, düşün,
+    yarın konuşuruz.
+- Test: tıkla → rakip görünsün → buton kilitli → 3 sn → sonuç.
+
+## HER ADIMDAN SONRA
+
+    git add .
+    git commit -m "kısa açıklama"
+    git push
+
+Küçük commit'ler = hata olursa dönebileceğin yakın nokta.
+
+## TAKILIRSAN
+
+1. Konsolu aç (F12) — kırmızı hata var mı?
+2. Hata satırına git, satırı Türkçeye çevirerek oku
+3. "TEKRAR EDEN HATALAR" listesine bak (aşağıda)
+4. 15 dk'dan uzun takıldıysan not al, geç, bana sor
+
+# ═══════════════════════════════════════════
 
 
-## KÜÇÜK TEMİZLİKLER
+## SONRA (birlikte)
 
-- [ ] `quatos` → `quotas` (yazım hatası, F2 ile tek seferde)
-- [ ] `getMyAveragePower(myTeamList)` — parametre global değişkeni gölgeliyor,
-      ya parametreyi kaldır ya adını değiştir
-- [ ] Ondalık güç değerleri: `Math.floor` yerine `toFixed(1)` düşün
-- [ ] `alert` yerine sayfada bir mesaj alanı (alert sayfayı kilitliyor)
-- [ ] `data.js.eski` silinebilir (4-4-2 öncesi yedek)
-- [ ] `console.log("bulunamadı")` — kullanıcı konsolu görmüyor
+### Saha dizilimi — 4-4-2 sahada görünsün  [~45-60 dk, BİRLİKTE]
+renderMyTeam slotları hatlara göre gruplamalı (JS = sen),
+saha görünümü CSS'i (ben). Sadece CSS işi değil, o yüzden birlikte.
+
+### Kanka mevkiler — Aşama 3  [~1 saat]
+Ceza tek kademeli olmasın, yakınlığa göre değişsin:
+- Aynı mevki → 0 · Komşu (cb↔lb, cm↔cam) → ~5
+- Orta uzak (cm↔st) → ~15 · Çok uzak (gk↔st) → ~35
+Uygulama: yakınlık tablosu + tek fonksiyon.
+BONUS: aynı tablo "en yakın boş slot" seçiminde de kullanılır —
+şu an ilk boş slot gk olduğu için forvet kaleye oturuyor, bu düzelir.
+
+### Takımlara farklı formasyonlar  [~1 saat]
+Bazı takımlar 4-3-3, 3-5-2 olsun. Kullanıcı kadrosu 4-4-2 kalır.
+Her formasyonda 1 kaleci → mekanik bozulmaz. EN SONA bırak.
+
+### Mevki Aşama 2 — kullanıcı slot seçsin  [~3-5 saat, opsiyonel]
+Önce slota tıkla, sonra oyuncuya.
+
+### Turnuva  [~4-6 saat]
+Tur yapısı, eşleşmeler, elenme, kupa.
+"Bir maç oyna"yı döngüye sarmak.
 
 
 ## TEKRAR EDEN HATALAR — kod yazarken kontrol et
@@ -109,34 +182,16 @@ createElement / appendChild (taşır, kopyalamaz) · kapanış (closure) ·
 kapsam (scope) · bekçi kalıbı (guard clause) · tek doğru kaynak ·
 durum → ekran yansıması (render) · sessiz hatalar · sonsuz döngü ·
 some / filter / find · geri çağırma fonksiyonu · null vs undefined ·
-referans vs değer (nesnenin içine uzanmak) · veri modeli tasarımı
+referans vs değer (nesnenin içine uzanmak) · veri modeli tasarımı ·
+flexbox (direkt çocuk kuralı) · CSS cascade · virgüllü seçici
 
 
-## YENİ FİKİRLER (29 Temmuz)
+## BİTENLER
 
-### Kanka mevkiler — Aşama 3'ün somut hali
-Ceza tek kademeli olmasın, yakınlığa göre değişsin:
-- Aynı mevki           → ceza yok
-- Komşu (rm↔rw, cm↔cam, cb↔lb, lm↔lw)  → küçük ceza (~5)
-- Orta uzak (cm↔st, cb↔cm)             → orta ceza (~15)
-- Çok uzak (gk↔st)                     → büyük ceza (~35)
-
-Uygulama: bir yakınlık tablosu + tek fonksiyon.
-Sabit ceza çalıştıktan SONRA tak, geri kalan kod değişmez.
-
-### Takımlara farklı formasyonlar
-Şu an 6 takım da 4-4-2. Bazıları 4-3-3, 3-5-2 olsun.
-- Havuzdaki mevki dağılımı çeşitlenir
-- Bazı takımlarda lm hiç olmaz → kadroyu doldurmak gerçekten zorlaşır
-- Kullanıcının kadrosu 4-4-2 ZORUNLU kalır (bu sürümde)
-- Her formasyonda 1 kaleci var → kaleci mekaniği bozulmaz
-
-EN SONA bırak: veri değişince test etmek zorlaşır, önce mekanik otursun.
-
-### NOT (29 Tem) — yedek slot seçimi
-`find` ilk boş slotu döndürüyor. Formasyonda gk en başta olduğu için,
-kaleci alınmadan seçilen ilk oyuncu kaleye geçiyor. Sert ama kural gereği doğru.
-
-Kanka mevki tablosu (Aşama 3) yazıldığında bu KENDİLİĞİNDEN düzelir:
-tablo hem cezayı hesaplar hem "en yakın boş mevki"yi seçmeye yarar.
-Ayrı bir iş değil.
+- [x] Kadro kurma, slot yapısı, guard zinciri
+- [x] Sıralı takım akışı + kotalar
+- [x] Maç simülasyonu (ortalama güç + şans)
+- [x] Mevki Aşama 1: yedek yerleştirme + sabit ceza (-10)
+- [x] Git/GitHub kurulumu
+- [x] Tüm takımlar 4-4-2, gerçekçi güçler
+- [x] CSS + HTML modern görünüm (Claude, 30 Tem)

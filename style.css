@@ -167,7 +167,7 @@ body {
    -------------------------------------------------------- */
 
 /* Empty slot in the squad — add "empty" class when slot.player === null */
-.myplayer-card.empty {
+.myemptyplayer-card {
     background: #f7f9fa;
     border-color: #e5eaef;
     border-style: dashed;
@@ -192,7 +192,7 @@ body {
 .player-card.picked {
     background: #eef1f4;
     border-color: #dfe4ea;
-    color: #9aa3ad;
+    color: #1a7ef1;
     text-decoration: line-through;
 }
 
@@ -258,3 +258,5 @@ body {
         position: static;      /* sticky makes no sense stacked */
     }
 }
+
+

@@ -17,7 +17,7 @@ console.log(myTeamList)
 
 
 let currentTeamIndex = 0;
-let quatos = [3, 3, 3, 2];
+let quotas = [3, 3, 3, 2];
 let teams = [team1, team2, team3, team4, team5, team6];
 let punishment = 10;
 
@@ -69,27 +69,28 @@ function createTeamCard(team) {
             }
 
             if (isPlayerInSquad(team.players[i])) {
-                alert("bu takımdan oyuncu veremezsin.");
+                alert("bu takımdan oyuncu veremezsiniz.");
+                playerCard.className = "player-card picked"; // çalışmıyor 
                 return;
 
             }
 
 
 
-            if (getPlayerCountFromTeam(team) >= quatos[currentTeamIndex]) {
-                alert("you can max 3 selected this team");
+            if (getPlayerCountFromTeam(team) >= quotas[currentTeamIndex]) {
+                alert("Bu takımdan maximum sayıda oyuncu seçtiniz.");
                 return;
 
             }
 
 
             if (countMyTeamPlayers() >= myTeamList.slots.length) {
-                alert("Team is full");
+                alert("Kadro Dolu.");
                 return;
 
             }
             addPlayerToSquad(team.players[i])
-            if (getPlayerCountFromTeam(team) >= quatos[currentTeamIndex]) {
+            if (getPlayerCountFromTeam(team) >= quotas[currentTeamIndex]) {
                 currentTeamIndex++;
                 renderTeams();
             }
@@ -186,7 +187,7 @@ function renderMyTeam() {
 
 
 
-    document.getElementById("myTeam").textContent = " ";
+    document.getElementById("myTeam").textContent = "";
 
 
     let myteamNameCard = document.createElement("div");
@@ -198,13 +199,20 @@ function renderMyTeam() {
 
 
     for (let i = 0; i < myTeamList.slots.length; i++) {
+        let player = myTeamList.slots[i].player;
         let slot = myTeamList.slots[i];
         let playerCard = document.createElement("div");
         playerCard.className = "myplayer-card";
         playerCard.textContent = slot.position + ": ";
+        if(slot.player === null) {
+            playerCard.className ="myemptyplayer-card"
+        } else {
+        if(player.position !== slot.position) {
+          playerCard.className ="myplayer-card misplaced"  
+        }
         if (slot.player !== null) {
             playerCard.textContent += slot.player.name + " " + slot.player.power;
-        }
+        } }
         document.getElementById("myTeam").appendChild(playerCard)
     }
 }
