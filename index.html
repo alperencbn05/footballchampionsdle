@@ -1,27 +1,37 @@
+<!DOCTYPE html>
 <html lang="tr">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>championsleaguedle</title>
+    <title>Football Champions - Kadronu Kur</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <div id="team-area"></div>
-    <p>My Squad</p>
-    <div id="myTeam"></div>
+    <header class="page-head">
+        <h1>Football Champions</h1>
+        <p>Sana verilen 4 takımdan sınırlı sayıda oyuncu seç, 11 kişilik kadronu kur ve rakibini yen.</p>
+    </header>
 
-    <p id="result"></p>
-    <button id='start-game'>Start Game</button>
+    <div id="layout">
+        <div id="team-area"></div>
+        <div id="myTeam"></div>
+    </div>
 
+    <div class="page-foot">
+        <button id="start-game">Start Game</button>
+        <p id="result"></p>
+    </div>
 
-
-
+    <footer class="site-note">
+        <p>Öğrenme amaçlı hobi projesidir. Gerçek kulüp ve oyuncularla bağlantısı yoktur.</p>
+    </footer>
 
     <script src="data.js"></script>
     <script src="index.js"></script>
+
 </body>
 
 </html>

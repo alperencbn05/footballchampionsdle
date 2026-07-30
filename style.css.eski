@@ -1,0 +1,65 @@
+body {
+    padding: 24px;
+    background-color: gray;
+    font-family: system-ui, sans-serif
+}
+
+
+#layout {
+    display: flex;
+    gap: 24px;
+
+}
+
+
+
+#team-area {
+    min-width: 300px;
+}
+
+
+.team-card {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 5%;
+    margin-bottom: 20px;
+}
+
+.player-card {
+    margin-bottom: 1px;
+    padding: 5px;
+    background-color: rgb(194, 210, 205);
+    border-radius: 6px;
+    cursor: pointer;
+
+}
+
+.myplayer-card {
+    margin-bottom: 1px;
+    padding: 5px;
+    background-color: rgb(205, 220, 215);
+    border-radius: 6px;
+    cursor: pointer;
+
+}
+
+
+#myTeam {
+    border: 2px solid red;
+    min-height: 100px;
+    flex: 1;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    margin-bottom: 20px;
+}
+
+.teamname-card {
+    font-weight: bold;
+    border-bottom: 2px solid #333;
+}
+
+.myteamname-card {
+    font-weight: bold;
+    border-bottom: 2px solid #333;
+}

@@ -1,16 +1,260 @@
-.team-card  {
-    border: 2px solid blue;
-    min-height: 50px;
-    min-width: 10%;
-    margin-bottom: 20px;
+/* ==========================================================
+   footballchampionsdle — stylesheet
+   Sections:
+     1. Reset & page
+     2. Layout
+     3. Team card (left column)
+     4. Player card
+     5. Squad panel (right column)
+     6. Footer: button & result
+     7. State hooks (need a JS line to activate)
+   ========================================================== */
 
+
+/* 1. RESET & PAGE ----------------------------------------- */
+
+* {
+    box-sizing: border-box;
+    /* width includes padding + border, so 300px is really 300px */
 }
 
-.player-card {
-    margin-bottom: 1px;
+body {
+    margin: 0;
+    padding: 24px 20px;
+    background: #eef1f4;
+    color: #1b1f24;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    font-size: 14px;
+    line-height: 1.45;
 }
+
+
+/* 2. LAYOUT ----------------------------------------------- */
+
+#layout {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;   /* columns keep their own height */
+    max-width: 980px;
+    margin: 0 auto;            /* center the page */
+}
+
+#team-area {
+    flex: 1;                   /* takes the remaining width */
+    min-width: 0;              /* lets it shrink on narrow screens */
+}
+
+
+/* 3. TEAM CARD -------------------------------------------- */
+
+.team-card {
+    background: #ffffff;
+    border: 1px solid #dfe4ea;
+    border-radius: 10px;
+    padding: 14px;
+    box-shadow: 0 1px 2px rgba(20, 30, 40, 0.05);
+}
+
+.teamname-card {
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: -0.2px;
+    padding-bottom: 9px;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #1b1f24;
+}
+
+
+/* 4. PLAYER CARD ------------------------------------------ */
+
+/* Shared rules for both lists — written once, on purpose */
+.player-card,
+.myplayer-card {
+    padding: 8px 11px;
+    margin-bottom: 5px;
+    border-radius: 7px;
+    font-size: 13.5px;
+    border: 1px solid #e5eaef;
+    background: #f7f9fa;
+    cursor: pointer;
+    transition: background 0.12s, border-color 0.12s, transform 0.12s;
+}
+
+.player-card:last-child,
+.myplayer-card:last-child {
+    margin-bottom: 0;
+}
+
+.player-card:hover {
+    background: #e9f6ee;
+    border-color: #1f8a4c;
+    transform: translateX(3px);
+}
+
+
+/* 5. SQUAD PANEL ------------------------------------------ */
 
 #myTeam {
-    border: 2px solid red;
-    min-height: 100px;
+    flex: 0 0 300px;           /* no grow, no shrink, fixed 300px */
+    background: #ffffff;
+    border: 1px solid #dfe4ea;
+    border-radius: 10px;
+    padding: 14px;
+    box-shadow: 0 1px 2px rgba(20, 30, 40, 0.05);
+    position: sticky;          /* stays visible while scrolling */
+    top: 24px;
+}
+
+.myteamname-card {
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: -0.2px;
+    padding-bottom: 9px;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #1f8a4c;
+}
+
+/* Filled slots read as "done" — soft green */
+.myplayer-card {
+    background: #eef7f1;
+    border-color: #cfe6d8;
+}
+
+.myplayer-card:hover {
+    background: #fdeeee;       /* hints that clicking removes */
+    border-color: #d99;
+}
+
+
+/* 6. FOOTER: BUTTON & RESULT ------------------------------ */
+
+#start-game {
+    display: block;
+    margin: 18px auto 0;
+    padding: 11px 24px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    color: #ffffff;
+    background: #1f8a4c;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.12s;
+}
+
+#start-game:hover {
+    background: #196f3d;
+}
+
+#start-game:active {
+    transform: translateY(1px);
+}
+
+#result {
+    max-width: 980px;
+    margin: 14px auto 0;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 600;
+    min-height: 22px;          /* reserves space so nothing jumps */
+}
+
+
+/* 7. STATE HOOKS ------------------------------------------
+   These rules are ready but do nothing yet.
+   Each needs one line in the JS to add the class.
+   -------------------------------------------------------- */
+
+/* Empty slot in the squad — add "empty" class when slot.player === null */
+.myplayer-card.empty {
+    background: #f7f9fa;
+    border-color: #e5eaef;
+    border-style: dashed;
+    color: #9aa3ad;
+    font-style: italic;
+}
+
+.myplayer-card.empty:hover {
+    background: #f7f9fa;
+    border-color: #e5eaef;
+}
+
+/* Player out of position — add "misplaced" class when
+   slot.position !== slot.player.position */
+.myplayer-card.misplaced {
+    background: #fdf4e7;
+    border-color: #e8c99a;
+}
+
+/* Already picked player in the team list —
+   add "picked" class when isPlayerInSquad(player) is true */
+.player-card.picked {
+    background: #eef1f4;
+    border-color: #dfe4ea;
+    color: #9aa3ad;
+    text-decoration: line-through;
+}
+
+.player-card.picked:hover {
+    background: #eef1f4;
+    border-color: #dfe4ea;
+    transform: none;
+}
+
+
+/* 8. PAGE HEADER & FOOTER --------------------------------- */
+
+.page-head {
+    max-width: 980px;
+    margin: 0 auto 22px;
+    text-align: center;
+}
+
+.page-head h1 {
+    margin: 0 0 6px;
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+/* Small green underline under the title */
+.page-head h1::after {
+    content: "";
+    display: block;
+    width: 56px;
+    height: 3px;
+    margin: 8px auto 0;
+    border-radius: 2px;
+    background: #1f8a4c;
+}
+
+.page-head p {
+    margin: 10px 0 0;
+    color: #5b6570;
+    font-size: 14px;
+}
+
+.site-note {
+    max-width: 980px;
+    margin: 28px auto 0;
+    text-align: center;
+    color: #9aa3ad;
+    font-size: 12px;
+}
+
+
+/* 9. RESPONSIVE ------------------------------------------- */
+
+/* On narrow screens the two columns stack vertically */
+@media (max-width: 720px) {
+    #layout {
+        flex-direction: column;
+    }
+
+    #myTeam {
+        flex: none;            /* fixed 300px no longer applies */
+        width: 100%;
+        position: static;      /* sticky makes no sense stacked */
+    }
 }

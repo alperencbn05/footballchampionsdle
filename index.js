@@ -184,7 +184,17 @@ function renderTeams() {
 
 function renderMyTeam() {
 
-    document.getElementById("myTeam").textContent = "";
+
+
+    document.getElementById("myTeam").textContent = " ";
+
+
+    let myteamNameCard = document.createElement("div");
+    myteamNameCard.className = "myteamname-card";
+    myteamNameCard.textContent = myTeamList.teamName;
+    document.getElementById("myTeam").appendChild(myteamNameCard);
+
+    
 
 
     for (let i = 0; i < myTeamList.slots.length; i++) {
